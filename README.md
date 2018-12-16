@@ -1,4 +1,4 @@
-# SOngService
+# SongService
 Service for everithing song related.
 
 [![Build Status](https://travis-ci.org/Kolebnica/SongService.svg?branch=master)](https://travis-ci.org/Kolebnica/SongService)
