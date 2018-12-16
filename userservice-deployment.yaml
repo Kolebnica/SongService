@@ -1,0 +1,57 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: songservice
+spec:
+  selector:
+    app: songservice
+  ports:
+  - protocol: "TCP"
+    port: 8082
+    targetPort: 8082
+    nodePort: 30002
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: songservice-deployment
+  labels:
+    app: songservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: songservice
+  template:
+    metadata:
+      labels:
+        app: songservice
+    spec:
+      containers:
+      - name: songservice
+        image: skiprope/songservice:latest
+        ports:
+        - containerPort: 8082
+          name: server
+          protocol: TCP
+        env:
+          - name: KUMULUZEE_DISCOVERY_CONSUL_AGENT
+            value: http://consul:8500  
+          - name: KUMULUZEE_CONFIG_CONSUL_AGENT
+            value: http://consul:8500
+          - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+            value: jdbc:postgresql://postgres-us:5432/postgres
+          - name: KUMULUZEE_DATASOURCES0_USERNAME
+            value: postgres
+          - name: KUMULUZEE_DATASOURCES0_PASSWORD
+            value: skiprope
+          - name: SKIPROPECONFIGS_HEALTH_CONSULURL
+            value: http://consul:8500/v1/status/leader
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: server
+          initialDelaySeconds: 20
+          periodSeconds: 3
+        
