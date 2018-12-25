@@ -1,12 +1,13 @@
 package pojo;
 
 import entities.Song;
+import entities.Stream;
 
 public class UploadForm {
 
     private Song song;
 
-    private String stream;
+    private byte[] stream;
 
     public Song getSong() {
         return song;
@@ -16,11 +17,11 @@ public class UploadForm {
         this.song = song;
     }
 
-    public String getStream() {
+    public byte[] getStream() {
         return stream;
     }
 
-    public void setStream(String stream) {
+    public void setStream(byte[] stream) {
         this.stream = stream;
     }
 }

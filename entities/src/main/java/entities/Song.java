@@ -24,7 +24,7 @@ public class Song implements Serializable {
 
     private int album_id;
 
-    private int title_id;
+    private String title;
 
     public int getId() {
         return id;
@@ -58,11 +58,11 @@ public class Song implements Serializable {
         this.album_id = album_id;
     }
 
-    public int getTitle_id() {
-        return title_id;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitle_id(int title_id) {
-        this.title_id = title_id;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

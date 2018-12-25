@@ -2,8 +2,10 @@ package api.resources;
 
 
 import beans.crud.SongBean;
+import beans.crud.StreamBean;
 import com.kumuluz.ee.logs.cdi.Log;
 import entities.Song;
+import entities.Stream;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,6 +30,9 @@ public class UploadResource {
     @Inject
     SongBean songBean;
 
+    @Inject
+    StreamBean streamBean;
+
     @Operation(
             summary = "Uploads songs",
             responses = {
@@ -36,9 +41,9 @@ public class UploadResource {
     )
     @POST
     public Response uploadSong(@RequestBody UploadForm uploadForm) {
-        //TODO: insert stream and get id
+        Stream s = streamBean.putStream(uploadForm.getStream());
         Song song = uploadForm.getSong();
-        song.setStream_id(1);
+        song.setStream_id(s.getId());
         return Response.ok(songBean.putSong(song)).build();
     }
 }
