@@ -7,6 +7,8 @@ import beans.external.UserServiceBean;
 import com.kumuluz.ee.logs.cdi.Log;
 import entities.Song;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -109,5 +111,49 @@ public class SongResource {
         return Response.ok(resultSongs).build();
     }
 
+    @Operation(
+            summary = "Get songs by artist",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Songs for given artist"),
+            },
+            parameters = {
+                    @Parameter(name = "artistId", in = ParameterIn.PATH),
+            }
+    )
+    @GET
+    @Path("artist/{artistId}")
+    public Response getSongsByArtist(@PathParam("artistId") int artistId) {
+        return Response.ok(songBean.getSongsByArtist(artistId)).build();
+    }
+
+    @Operation(
+            summary = "Get songs by album",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Songs in given album"),
+            },
+            parameters = {
+                    @Parameter(name = "albumId", in = ParameterIn.PATH),
+            }
+    )
+    @GET
+    @Path("album/{albumId}")
+    public Response getSongsByAlbum(@PathParam("albumId") int albumId) {
+        return Response.ok(songBean.getSongsByAlbum(albumId)).build();
+    }
+
+    @Operation(
+            summary = "Get songs by user",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Songs by given user"),
+            },
+            parameters = {
+                    @Parameter(name = "userId", in = ParameterIn.PATH),
+            }
+    )
+    @GET
+    @Path("user/{userId}")
+    public Response getSongsByUser(@PathParam("userId") int userId) {
+        return Response.ok(songBean.getSongsByUser(userId)).build();
+    }
 
 }

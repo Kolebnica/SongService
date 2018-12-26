@@ -2,6 +2,7 @@ package beans.crud;
 
 import entities.Song;
 import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Metric;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -45,5 +46,23 @@ public class SongBean {
         em.persist(song);
         em.flush();
         return song;
+    }
+
+    @Counted(name = "SongBeanCall", monotonic = true)
+    public List<Song> getSongsByArtist(int artistId) {
+        TypedQuery<Song> q = em.createNamedQuery("Song.getSongsByArtist", Song.class).setParameter("id", artistId);
+        return q.getResultList();
+    }
+
+    @Counted(name = "SongBeanCall", monotonic = true)
+    public List<Song> getSongsByAlbum(int albumId) {
+        TypedQuery<Song> q = em.createNamedQuery("Song.getSongsByAlbum", Song.class).setParameter("id", albumId);
+        return q.getResultList();
+    }
+
+    @Counted(name = "SongBeanCall", monotonic = true)
+    public List<Song> getSongsByUser(int userId) {
+        TypedQuery<Song> q = em.createNamedQuery("Song.getSongsByUser", Song.class).setParameter("id", userId);
+        return q.getResultList();
     }
 }

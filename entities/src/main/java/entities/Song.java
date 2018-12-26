@@ -8,7 +8,10 @@ import java.io.Serializable;
 @Entity(name = "songs")
 @NamedQueries(value = {
     @NamedQuery(name = "Song.getById", query = "SELECT s FROM songs s WHERE s.id = :id"),
-    @NamedQuery(name = "Song.getSongs", query = "SELECT s FROM songs s")
+    @NamedQuery(name = "Song.getSongs", query = "SELECT s FROM songs s"),
+    @NamedQuery(name = "Song.getSongsByArtist", query = "SELECT s FROM songs s WHERE s.artist_id = :id"),
+    @NamedQuery(name = "Song.getSongsByUser", query = "SELECT s FROM songs s WHERE s.user_id = :id"),
+    @NamedQuery(name = "Song.getSongsByAlbum", query = "SELECT s FROM songs s WHERE s.album_id = :id")
 })
 public class Song implements Serializable {
 
