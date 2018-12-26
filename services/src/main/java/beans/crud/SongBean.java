@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @ApplicationScoped
 public class SongBean {
@@ -25,6 +26,15 @@ public class SongBean {
     @Transactional
     public Song getSong(int id) {
         return em.find(Song.class, id);
+    }
+
+    /**
+     * Get all songs
+     */
+    @Transactional
+    public List<Song> getAllSongs() {
+        TypedQuery<Song> q = em.createNamedQuery("Song.getSongs", Song.class);
+        return q.getResultList();
     }
 
     /**

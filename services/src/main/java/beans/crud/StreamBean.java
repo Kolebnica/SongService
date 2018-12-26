@@ -29,4 +29,12 @@ public class StreamBean {
         em.flush();
         return s;
     }
+
+    /**
+     * Get stream
+     */
+    @Transactional
+    public Stream getStreamById(int streamId){
+        return em.find(Stream.class, streamId);
+    }
 }
