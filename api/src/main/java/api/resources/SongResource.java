@@ -2,6 +2,8 @@ package api.resources;
 
 
 import beans.crud.SongBean;
+import beans.external.LibraryServiceBean;
+import beans.external.UserServiceBean;
 import com.kumuluz.ee.logs.cdi.Log;
 import entities.Song;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,12 +25,18 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("song")
 @ApplicationScoped
-@Tags(value = @Tag(name = "authentication"))
+@Tags(value = @Tag(name = "song"))
 @Log
 public class SongResource {
 
     @Inject
     SongBean songBean;
+
+    @Inject
+    UserServiceBean userServiceBean;
+
+    @Inject
+    LibraryServiceBean libraryServiceBean;
 
     @Operation(
             summary = "Post song data",
@@ -38,7 +46,28 @@ public class SongResource {
     )
     @POST
     public Response uploadSong(@RequestBody Song song) {
-        return Response.ok(songBean.putSong(song)).build();
+        try{
+            if (song.getUser_id() == null)
+                return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Missing user id.").build();
+
+            if (!userServiceBean.validUserId(song.getUser_id()))
+                return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid user id.").build();
+
+            if(song.getAlbum_id() != null){
+                if(!libraryServiceBean.validAlbumId(song.getAlbum_id()))
+                    return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid album id.").build();
+            }
+
+            if(song.getArtist_id() != null){
+                if(!libraryServiceBean.validArtistId(song.getArtist_id()))
+                    return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid artist id.").build();
+            }
+
+            return Response.ok(songBean.putSong(song)).build();
+        }catch (Exception e){
+            //log exception
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Something went wrong." + e).build();
+        }
     }
 
     @Operation(

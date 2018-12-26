@@ -19,13 +19,15 @@ public class Song implements Serializable {
     private int id;
 
     @Column(unique = true)
-    private int stream_id;
+    private Integer stream_id;
 
-    private int artist_id;
+    private Integer artist_id;
 
-    private int album_id;
+    private Integer album_id;
 
     private String title;
+
+    private Integer user_id;
 
     public int getId() {
         return id;
@@ -35,27 +37,27 @@ public class Song implements Serializable {
         this.id = id;
     }
 
-    public int getStream_id() {
+    public Integer getStream_id() {
         return stream_id;
     }
 
-    public void setStream_id(int stream_id) {
+    public void setStream_id(Integer stream_id) {
         this.stream_id = stream_id;
     }
 
-    public int getArtist_id() {
+    public Integer getArtist_id() {
         return artist_id;
     }
 
-    public void setArtist_id(int artist_id) {
+    public void setArtist_id(Integer artist_id) {
         this.artist_id = artist_id;
     }
 
-    public int getAlbum_id() {
+    public Integer getAlbum_id() {
         return album_id;
     }
 
-    public void setAlbum_id(int album_id) {
+    public void setAlbum_id(Integer album_id) {
         this.album_id = album_id;
     }
 
@@ -65,5 +67,13 @@ public class Song implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 }

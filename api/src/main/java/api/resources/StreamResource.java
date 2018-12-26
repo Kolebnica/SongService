@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("stream")
 @ApplicationScoped
-@Tags(value = @Tag(name = "authentication"))
+@Tags(value = @Tag(name = "stream"))
 @Log
 public class StreamResource {
 
