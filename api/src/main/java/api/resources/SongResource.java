@@ -156,4 +156,26 @@ public class SongResource {
         return Response.ok(songBean.getSongsByUser(userId)).build();
     }
 
+    //
+
+    @Operation(
+            summary = "Update song",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Song updated"),
+                    @ApiResponse(responseCode = "404", description = "Song with ID does not exist")
+            }
+    )
+    @PUT
+    @Path("{songId}")
+    public Response updateAlbum(@PathParam("songId") int songId, Song song) {
+
+        song = songBean.updateSong(songId, song);
+
+        if (song == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } else {
+            return Response.status(Response.Status.OK).entity(song).build();
+        }
+    }
+
 }

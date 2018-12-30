@@ -65,4 +65,18 @@ public class SongBean {
         TypedQuery<Song> q = em.createNamedQuery("Song.getSongsByUser", Song.class).setParameter("id", userId);
         return q.getResultList();
     }
+
+    @Transactional
+    @Counted(name = "SongBeanCall", monotonic = true)
+    public Song updateSong(int id, Song s) {
+        Song existing = em.find(Song.class, id);
+        if (existing == null) {
+            return null;
+        }
+
+        s.setId(existing.getId());
+        s = em.merge(s);
+        em.flush();
+        return s;
+    }
 }
