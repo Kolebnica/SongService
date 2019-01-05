@@ -1,6 +1,8 @@
 package beans.external;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import org.eclipse.microprofile.metrics.annotation.Counted;
+import pojo.AlbumDataContract;
+import pojo.ArtistDataContract;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -48,6 +50,30 @@ public class LibraryServiceBean {
             //throw new Exception("Library service not found");
             // TODO: odkomentiraj
             return true;
+        }
+    }
+
+    @Counted(name = "callLibraryService", monotonic = true)
+    public ArtistDataContract getArtist(int artistId) throws Exception{
+        if(libraryServiceWebTarget.isPresent()) {
+            WebTarget t = libraryServiceWebTarget.get();
+
+            return t.path("api/artists/"+artistId).request().get(ArtistDataContract.class);
+        }
+        else{
+            throw new Exception("Library service not found");
+        }
+    }
+
+    @Counted(name = "callLibraryService", monotonic = true)
+    public AlbumDataContract getAlbum(int albumId) throws Exception{
+        if(libraryServiceWebTarget.isPresent()) {
+            WebTarget t = libraryServiceWebTarget.get();
+
+            return t.path("api/albums/"+albumId).request().get(AlbumDataContract.class);
+        }
+        else{
+            throw new Exception("Library service not found");
         }
     }
 }

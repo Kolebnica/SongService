@@ -100,9 +100,21 @@ public class SongResource {
         for (Song song: songs) {
             SongDataContract sdc = new SongDataContract();
 
+            String albumTitle = "Unknown";
+            String artistTitle = "Unknown";
+
+            try{
+                albumTitle = libraryServiceBean.getAlbum(song.getAlbum_id()).getTitle();
+                artistTitle = libraryServiceBean.getArtist(song.getArtist_id()).getCreativeName();
+            }
+            catch(Exception e)
+            {
+                //logg error
+            }
+
             sdc.setTitle(song.getTitle());
-            sdc.setAlbum("Unknown");
-            sdc.setArtist("Unknown");
+            sdc.setAlbum(albumTitle);
+            sdc.setArtist(artistTitle);
             sdc.setStreamId(song.getStream_id());
 
             resultSongs.add(sdc);
