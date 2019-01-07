@@ -24,7 +24,7 @@ kumuluzee:
   metrics:
     web-instrumentation:
       - name: metrics-endpoint
-        url-pattern: /api/metadata/*
+        url-pattern: /api/*
         status-codes: "200, 500"
     servlet:
       enabled: true
@@ -40,4 +40,4 @@ kumuluzee:
 # Settings and configurations
 skiprope-configs:
   health:
-    consul-url: http://localhost:2379/health
+    etcd-url: http://localhost:2379/health
