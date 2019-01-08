@@ -1,13 +1,12 @@
 package beans.crud;
 
 import entities.Song;
-import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.Metric;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -17,14 +16,11 @@ public class SongBean {
     @PersistenceContext(unitName = "sr-jpa")
     private EntityManager em;
 
-    @Inject
-    @Metric(name="songDbCall")
-    private Counter counter;
-
     /**
      * Get song by id
      */
     @Transactional
+    @Counted(name = "SongBeanCall", monotonic = true)
     public Song getSong(int id) {
         return em.find(Song.class, id);
     }
@@ -33,6 +29,7 @@ public class SongBean {
      * Get all songs
      */
     @Transactional
+    @Counted(name = "SongBeanCall", monotonic = true)
     public List<Song> getAllSongs() {
         TypedQuery<Song> q = em.createNamedQuery("Song.getSongs", Song.class);
         return q.getResultList();
@@ -42,6 +39,7 @@ public class SongBean {
      * Put new song
      */
     @Transactional
+    @Counted(name = "SongBeanCall", monotonic = true)
     public Song putSong(Song song){
         em.persist(song);
         em.flush();

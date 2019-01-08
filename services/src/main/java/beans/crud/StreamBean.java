@@ -3,6 +3,7 @@ package beans.crud;
 import entities.Song;
 import entities.Stream;
 import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Metric;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,6 +22,7 @@ public class StreamBean {
      * Put new stream
      */
     @Transactional
+    @Counted(name = "StreamBeanCall", monotonic = true)
     public Stream putStream(byte[] dataStream){
         Stream s = new Stream();
         s.setData(dataStream);
@@ -34,6 +36,7 @@ public class StreamBean {
      * Get stream
      */
     @Transactional
+    @Counted(name = "StreamBeanCall", monotonic = true)
     public Stream getStreamById(int streamId){
         return em.find(Stream.class, streamId);
     }
