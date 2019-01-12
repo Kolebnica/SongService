@@ -7,7 +7,6 @@ public class SongDataContract {
     private String artist;
     private int streamId;
 
-
     public String getTitle() {
         return title;
     }
